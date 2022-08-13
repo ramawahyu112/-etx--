@@ -9,9 +9,8 @@ import 'package:getx_renshuu/screens/WishListScreen.dart';
 class HomeScreen extends StatelessWidget {
   final ProductController _p = Get.put(ProductController());
   final CartController _cartController = Get.put(CartController());
-  late cart _carts ;
+  var qty = 0.obs;
   HomeScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +31,22 @@ class HomeScreen extends StatelessWidget {
             ),
             onTap: () {
               Get.toNamed('/wishlist');
+            },
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          InkWell(
+            child: Container(
+              width: 300,
+              height: 80,
+              color: Colors.red,
+              alignment: Alignment.center,
+              child: Obx(() => Text(
+                  'cart'.tr + ' : ' + _cartController.carts.length.toString())),
+            ),
+            onTap: () {
+              Get.toNamed('/cart');
             },
           ),
           const SizedBox(
@@ -89,25 +104,31 @@ class HomeScreen extends StatelessWidget {
                     )),
                 onTap: () {
                   Get.defaultDialog(
-                      title: "Alert",
+                      title: "Add Item To Cart",
                       content: Column(
                         children: [
                           CupertinoSpinBox(
-                            min: 1,
-                            max: 100,
-                            value: 0,
-                            onChanged: (value) => {
-                              _carts.items = product,
-                              _carts.qty = value,
-                            },
-                          ),
+                              min: 1,
+                              max: 100,
+                              value: 0,
+                              onChanged: (value) =>
+                                  {qty.value = value.toInt()}),
                           IconButton(
-                                onPressed: () => {
-                                      _cartController.addToCart(_carts),
-                                    },
-                                icon: Icon(Icons.send)),
+                              onPressed: () => {
+                                    _cartController.addToCart(
+                                      cart(
+                                          items: product,
+                                          qty: qty.toDouble(),
+                                          total: 0),
+                                    ),
+                                  },
+                              icon: Icon(Icons.save_alt_rounded)),
                         ],
-                      ));
+                      ),
+                      actions: [
+                        FlatButton(
+                            onPressed: () => Get.back(), child: Text('Close')),
+                      ]);
                 },
               );
               ;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_renshuu/lang/translation.dart';
+import 'package:getx_renshuu/screens/CartScreen.dart';
 import 'package:getx_renshuu/screens/HomeScreen.dart';
 import 'package:getx_renshuu/screens/WishListScreen.dart';
 
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: '/', page: () => HomeScreen(),),
         GetPage(name: '/wishlist', page: () => WishListScreen(),),
+        GetPage(name: '/cart', page: () => CartScreen(),),
       ],
     );
   }

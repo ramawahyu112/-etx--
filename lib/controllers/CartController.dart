@@ -2,20 +2,20 @@ import 'package:get/get.dart';
 import 'package:getx_renshuu/models/cart.dart';
 
 class CartController extends GetxController {
-  RxList<cart>? _carts;
+  var _carts = RxList<cart>.empty().obs;
 
   List<cart> get carts {
-    return _carts!.toList();
+    return _carts.value;
   }
 
-  void addToCart(cart carts) {
+  addToCart(cart carts) {
     carts.total = carts.qty !* carts.items!.price!.toDouble();
-    _carts!.add(carts);
+    _carts.value.add(carts);
   }
 
   void removeFromCart(int id) {
-    var _temp = _carts!.where((index) => index.items!.id == id);
-    _carts!.remove(_temp);
+    var _temp = _carts.value.where((index) => index.items!.id == id);
+    _carts.value.remove(_temp);
   }
 
   double total(){
